@@ -11,7 +11,7 @@ class AppointmentController extends Controller
         $data = [
             'code' => 200,
             'status' => 'success',
-            'appointments' => $appointments
+            'data' => $appointments
         ];
         return response()->json($data, $data['code']);
     }
@@ -33,8 +33,11 @@ class AppointmentController extends Controller
                 'start_time' => 'required|date_format:Y-m-d H:i:s',
             ]);
             if($validate->fails()) {
-                $data['message'] = 'error -- No se ha podido guardar la cita.';
+                $data['message'] = 'No se ha podido guardar la cita.';
             } else {
+                $service = new ServiceController();
+                $service = $service->show($params_array['service_id']);
+                dd($service);die();
                 //Save the appointment
                 $appointment = new Appointment();
                 $appointment->customer_id = $params_array['customer_id'];
@@ -44,7 +47,7 @@ class AppointmentController extends Controller
                 $data = [
                     'code' => 200,
                     'status' => 'success',
-                    'employee' => $appointment
+                    'data' => $appointment
                 ];
             }
         }
@@ -57,7 +60,7 @@ class AppointmentController extends Controller
             $data = array(
                 'code' => 200,
                 'status' => 'success',
-                'appointment' => $appointment
+                'data' => $appointment
             );
         } else {
             $data = array(

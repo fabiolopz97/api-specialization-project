@@ -11,17 +11,27 @@
 |
 */
 
-/*Route::get('/', function () {
+Route::get('/', function () {
     return view('welcome');
-});*/
+});
 // Example Route POST method
 //Route::post('api/service', 'ServiceController@store');
 
+/**
+ * Customer api routes
+ */
+//Route::resource('customer', 'CustomerController');
+//Route::post('customer/login', 'CustomerController@login');
+/*Route::resource('service', 'ServiceController');
+Route::get('service/category/{id}', 'ServiceController@showServicesByCategory');
+Route::resource('category', 'ServiceCategoryController');*/
+
+
 //Routes of the controller service
-    Route::resource('api/service', 'ServiceController');
+//Route::resource('api/service', 'ServiceController');
 //Routes of the controller customer
-    Route::resource('api/customer', 'CustomerController');
+//    Route::resource('api/customer', 'CustomerController');
 //Routes of the controller employee
-    Route::resource('api/employee', 'EmployeeController');
+  //  Route::resource('api/employee', 'EmployeeController');
 //Routes of the controller appointment
-    Route::resource('api/appointment', 'AppointmentController');
+ //   Route::resource('api/appointment', 'AppointmentController');

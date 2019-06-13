@@ -4,18 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Service;
+use App\ServiceCategory;
 class ServiceController extends Controller
 {
     public function index() {
-        $services = Service::all();
-        $data = [
-            'code' => 200,
-            'status' => 'success',
-            'services' => $services
-        ];
-        return response()->json($data, $data['code']);
+        return Service::all();
     }
-    
+
     public function store(Request $resquest) {
         $json = $resquest->input('json', null);
         $params_array = json_decode($json, true);
@@ -38,31 +33,30 @@ class ServiceController extends Controller
                 $data = [
                     'code' => 200,
                     'status' => 'success',
-                    'service' => $service
+                    'data' => $service
                 ];
             }
         }
         return response()->json($data, $data['code']);
     }
-    
+
     public function show($id) {
-        $service  =  Service::find($id);
-        if(is_object($service)) {
-            $data = [
-                'code' => 200,
-                'status' => 'success',
-                'service' => $service
-            ];
-        } else {
-            $data = [
-                'code' => 400,
-                'status' => 'error',
-                'message' => 'El servicio  no existe.'
-            ];    
-        }
-        return response()->json($data, $data['code']);
+        return Service::findOrFail($id);
     }
-    
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showServicesByCategory($id)
+    {
+        return Service::where('service_category_id', $id)
+            ->orderby('name')
+            ->get();
+    }
+
     public function update($id, Request $request) {
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);
@@ -79,7 +73,7 @@ class ServiceController extends Controller
             $data = [
                 'code' => 200,
                 'status' => 'success',
-                'service' => $params_array
+                'data' => $params_array
             ];
         }
         return response()->json($data, $data['code']);

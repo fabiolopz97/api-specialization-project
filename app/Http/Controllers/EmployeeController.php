@@ -14,7 +14,7 @@ class EmployeeController extends Controller
         $data = [
             'code' => 200,
             'status' => 'success',
-            'employee' => $employees
+            'data' => $employees
         ];
         return response()->json($data, $data['code']);
     }
@@ -57,7 +57,7 @@ class EmployeeController extends Controller
                 $data = [
                     'code' => 200,
                     'status' => 'success',
-                    'employee' => $employee
+                    'data' => $employee
                 ];
             }
         }
@@ -70,7 +70,7 @@ class EmployeeController extends Controller
             $data = array(
                 'code' => 200,
                 'status' => 'success',
-                'employee' => $employee
+                'data' => $employee
             );
         } else {
             $data = array(
