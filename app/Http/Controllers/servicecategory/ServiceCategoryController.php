@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ServiceCategory;
 
 use Illuminate\Http\Request;
 use App\ServiceCategory;
+use App\Http\Controllers\ApiController;
+use Illuminate\Support\Facades\Storage;
 
-class ServiceCategoryController extends Controller
+class ServiceCategoryController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +16,8 @@ class ServiceCategoryController extends Controller
      */
     public function index()
     {
-        return ServiceCategory::all();
+        $serviceCategory = ServiceCategory::all();
+        return $this->showAll($serviceCategory);
     }
 
     /**
@@ -81,5 +84,20 @@ class ServiceCategoryController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function updateUploadFiles(Request $request, $id)
+    {
+        $service = ServiceCategory::findOrFail($id);
+        if ($request->hasFile('image')) {
+            Storage::delete($service->image);
+            $service->image = $request->image->store('');
+        }
+        
+        if (!$service->isDirty()) {
+            return $this->errorResponse('Se debe especificar al menos un valor diferente para actualizar', 422);
+        }
+        $service->save();
+        return $this->showOne($service);
     }
 }

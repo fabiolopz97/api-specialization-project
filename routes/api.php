@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,10 +25,13 @@ Route::group([
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
 });
-Route::resource('customer', 'CustomerController');
-Route::resource('service', 'ServiceController');
-Route::get('service/category/{id}', 'ServiceController@showServicesByCategory');
-Route::resource('category', 'ServiceCategoryController');
+Route::resource('customer', 'Customer\CustomerController');
+Route::resource('service', 'Service\ServiceController');
+Route::get('service/category/{id}', 'Service\ServiceController@showServicesByCategory');
+Route::put('service/uploadFile/{id}','Service\ServiceController@updateUploadFiles');
+
+Route::resource('category', 'ServiceCategory\ServiceCategoryController');
+Route::put('category/uploadFile/{id}','ServiceCategory\ServiceCategoryController@updateUploadFiles');
 
 
 //Route::resource('customer', 'CustomerController')->middleware('jwt.auth');
